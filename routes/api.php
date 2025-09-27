@@ -12,15 +12,21 @@ Route::get('/', function () {
 Route::post('auth/register',[AuthController::class, 'register'] );
 Route::post('auth/login',[AuthController::class, 'login'] );
 
-Route::get('news/{id}',[NewsController::class, 'view'] );
-Route::get('news/{id}/settings',[NewsController::class, 'settings'] );
-Route::get('news/random',[NewsController::class, 'random'] );
-Route::get('news/related/{id}',[NewsController::class, 'related'] );
-Route::get('news/categories',[CategoryController::class, 'index'] );
+// Route::get('news/{id}',[NewsController::class, 'view'] );
+// Route::get('news/{id}/settings',[NewsController::class, 'settings'] );
+// Route::get('news/random',[NewsController::class, 'random'] );
+// Route::get('news/related/{id}',[NewsController::class, 'related'] );
+// Route::get('news/categories',[CategoryController::class, 'index'] );
 
 Route::middleware(['jwt.auth'])->group(function() 
 {
     Route::get('news',[NewsController::class, 'index'] );
+    Route::get('news/{id}',[NewsController::class, 'view'] );
+    Route::get('news/{id}/settings',[NewsController::class, 'settings'] );
+    Route::get('news/random',[NewsController::class, 'random'] );
+    Route::get('news/related/{id}',[NewsController::class, 'related'] );
+    Route::get('news/categories',[CategoryController::class, 'index'] );
+
     Route::get('/register', function() {
         return auth()->user();
     });
