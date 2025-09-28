@@ -13,6 +13,27 @@ use App\Models\User;
 
 class AuthController extends Controller
 {
+    public function changePassword(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'new_password' => 'required|string|min:8|max:16',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => 'Datos inválidos'], 400);
+        }
+
+        $user = User::where('email', $request->email)->first();
+        if (!$user) {
+            return response()->json(['error' => 'Usuario no encontrado'], 404);
+        }
+
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+
+        return response()->json(['message' => 'Contraseña actualizada correctamente']);
+    }
     //
     public function login (Request $request) 
     {
